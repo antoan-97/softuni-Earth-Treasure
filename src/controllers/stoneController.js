@@ -88,6 +88,22 @@ router.get('/:stoneId/like', async (req, res) => {
     }
 });
 
+router.get('/search', async (req, res) => {
+    const { name } = req.query;
+
+    let query = {};
+    if (name) {
+        query.name = new RegExp(name, 'i'); // Case-insensitive regex search
+    }
+
+    try {
+        const results = await stoneManager.search(query);
+        res.render('partials/search', { results }); // Render the 'search.hbs' template
+    } catch (err) {
+        res.render('404', { error: getErrorMessage(err) });
+    }
+});
+
 
 
 module.exports = router;
