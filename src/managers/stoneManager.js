@@ -11,6 +11,10 @@ exports.delete = (stoneId) => Stones.findByIdAndDelete(stoneId);
 
 exports.create = (stoneData) => Stones.create(stoneData);
 
+exports.search = (query) => {
+    return Stones.find(query).lean();
+};
+
 exports.like = async (stoneId, userId) => {
     const stone = await Stones.findById(stoneId);
 
