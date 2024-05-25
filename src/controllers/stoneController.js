@@ -25,7 +25,18 @@ router.post('/create', async (req, res) => {
     } catch (err) {
         res.render('stones/create', { error: getErrorMessage(err) })
     }
-    
+});
+
+router.get('/:stoneId/details', async (req, res) => {
+
+    const { user } = req;
+    const stoneId = req.params.stoneId;
+
+    const stone = await stoneManager.getOne(stoneId).lean();
+    const isOwner = req.user?._id == stone.owner?._id
+    const hasLiked = stone.voteList?.some((v) => v?.toString() === user?._id);
+
+    res.render('stones/details', { stone, isOwner, hasLiked });
 });
 
 
