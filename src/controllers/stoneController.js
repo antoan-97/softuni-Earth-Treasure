@@ -39,6 +39,19 @@ router.get('/:stoneId/details', async (req, res) => {
     res.render('stones/details', { stone, isOwner, hasLiked });
 });
 
+router.get('/:stoneId/edit', async (req, res) => {
+
+    const stoneId = req.params.stoneId;
+    const stoneData = req.body;
+
+    try {
+        await stoneManager.edit(stoneId, stoneData);
+        res.redirect(`/stones/${stoneId}/details`);
+    } catch (err) {
+        res.redirect('/stones/edit', { error: 'Unsuccessful edit!' })
+    }
+})
+
 
 
 module.exports = router;
