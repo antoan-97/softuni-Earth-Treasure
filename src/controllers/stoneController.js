@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { getErrorMessage } = require('../utils/errorHelper');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 const stoneManager = require('../managers/stoneManager');
 
@@ -8,12 +9,12 @@ router.get('/', async (req, res) => {
     res.render('stones', { stones })
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuth, (req, res) => {
     res.render('stones/create')
 });
 
 
-router.post('/create', async (req, res) => {
+router.post('/create', isAuth, async (req, res) => {
     const stoneData = {
         ...req.body,
         owner: req.user._id,
@@ -39,7 +40,7 @@ router.get('/:stoneId/details', async (req, res) => {
     res.render('stones/details', { stone, isOwner, hasLiked });
 });
 
-router.get('/:stoneId/edit', async (req, res) => {
+router.get('/:stoneId/edit', isAuth, async (req, res) => {
     const stoneId = req.params.stoneId;
 
     try {
@@ -51,7 +52,7 @@ router.get('/:stoneId/edit', async (req, res) => {
 
 });
 
-router.post('/:stoneId/edit', async (req, res) => {
+router.post('/:stoneId/edit', isAuth, async (req, res) => {
 
     const stoneId = req.params.stoneId;
     const stoneData = req.body;
@@ -64,7 +65,7 @@ router.post('/:stoneId/edit', async (req, res) => {
     }
 })
 
-router.get('/:stoneId/delete', async (req, res) => {
+router.get('/:stoneId/delete', isAuth, async (req, res) => {
     const stoneId = req.params.stoneId;
 
     try {
@@ -76,7 +77,7 @@ router.get('/:stoneId/delete', async (req, res) => {
 });
 
 
-router.get('/:stoneId/like', async (req, res) => {
+router.get('/:stoneId/like', isAuth, async (req, res) => {
     const stoneId = req.params.stoneId;
     const userId = req.user._id;
 
