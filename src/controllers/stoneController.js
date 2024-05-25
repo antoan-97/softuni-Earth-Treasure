@@ -34,7 +34,7 @@ router.get('/:stoneId/details', async (req, res) => {
 
     const stone = await stoneManager.getOne(stoneId).lean();
     const isOwner = req.user?._id == stone.owner?._id
-    const hasLiked = stone.voteList?.some((v) => v?.toString() === user?._id);
+    const hasLiked = stone.likedList?.some((v) => v?.toString() === user?._id);
 
     res.render('stones/details', { stone, isOwner, hasLiked });
 });
@@ -71,9 +71,22 @@ router.get('/:stoneId/delete', async (req, res) => {
         await stoneManager.delete(stoneId);
         res.redirect('/stones');
     } catch (err) {
-        res.render('photos/details', { error: getErrorMessage(err) })
+        res.render('photos/details', { error: getErrorMessage(err) });
     }
-})
+});
+
+
+router.get('/:stoneId/like', async (req, res) => {
+    const stoneId = req.params.stoneId;
+    const userId = req.user._id;
+
+    try {
+        await stoneManager.like(stoneId, userId);
+        res.redirect(`/stones/${stoneId}/details`);
+    } catch (err) {
+        res.render('404', { error: getErrorMessage(err) });
+    }
+});
 
 
 
