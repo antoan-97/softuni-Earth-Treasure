@@ -40,6 +40,18 @@ router.get('/:stoneId/details', async (req, res) => {
 });
 
 router.get('/:stoneId/edit', async (req, res) => {
+    const stoneId = req.params.stoneId;
+
+    try {
+        const stone = await stoneManager.getOne(stoneId).lean();
+        res.render('stones/edit', { stone });
+    } catch (err) {
+        res.render('404', { error: getErrorMessage(err) });
+    }
+
+});
+
+router.post('/:stoneId/edit', async (req, res) => {
 
     const stoneId = req.params.stoneId;
     const stoneData = req.body;
