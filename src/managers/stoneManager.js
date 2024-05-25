@@ -7,4 +7,6 @@ exports.getOne = (stoneId) => Stones.findById(stoneId).populate('owner');
 
 exports.edit = (stoneId,stoneData) => Stones.findByIdAndUpdate(stoneId,stoneData);
 
+exports.delete = (stoneId) => Stones.findByIdAndDelete(stoneId);
+
 exports.create = (stoneData) => Stones.create(stoneData);

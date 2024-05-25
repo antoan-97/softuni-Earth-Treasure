@@ -64,6 +64,17 @@ router.post('/:stoneId/edit', async (req, res) => {
     }
 })
 
+router.get('/:stoneId/delete', async (req, res) => {
+    const stoneId = req.params.stoneId;
+
+    try {
+        await stoneManager.delete(stoneId);
+        res.redirect('/stones');
+    } catch (err) {
+        res.render('photos/details', { error: getErrorMessage(err) })
+    }
+})
+
 
 
 module.exports = router;
