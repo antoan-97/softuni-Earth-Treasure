@@ -10,7 +10,11 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/create', isAuth, (req, res) => {
-    res.render('stones/create')
+    try {
+        res.render('stones/create')  
+    } catch (err) {
+        res.render('404');
+    }
 });
 
 
@@ -24,7 +28,7 @@ router.post('/create', isAuth, async (req, res) => {
         await stoneManager.create(stoneData);
         res.redirect('/stones')
     } catch (err) {
-        res.render('stones/create', { error: getErrorMessage(err) })
+        res.render('404', { error: getErrorMessage(err) })
     }
 });
 
