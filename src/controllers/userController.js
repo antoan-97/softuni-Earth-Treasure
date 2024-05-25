@@ -8,14 +8,14 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const token = await userManager.login(username, password);
+        const token = await userManager.login(email, password);
         res.cookie('token', token);
         res.redirect('/');
     } catch (err) {
-        res.render('users/login', { error:  getErrorMessage(err), username });
+        res.render('users/login', { error:  getErrorMessage(err), email });
     }
    
 });
@@ -28,12 +28,12 @@ router.post('/register', async (req, res) => {
     const { username, email, password, repeatPassword } = req.body;
 
     try {
-        const token = await userManager.register({ username, email, password, repeatPassword });
+        const token = await userManager.register({ email, password, repeatPassword });
 
         res.cookie('token',token)
         res.redirect('/');
     } catch (err) {
-        res.render('users/register', { error:getErrorMessage(err),  username, email, password, repeatPassword  })
+        res.render('users/register', { error:getErrorMessage(err),  email, password, repeatPassword  })
     }
 });
 
