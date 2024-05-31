@@ -65,7 +65,7 @@ router.post('/:stoneId/edit', isAuth, async (req, res) => {
         await stoneManager.edit(stoneId, stoneData);
         res.redirect(`/stones/${stoneId}/details`);
     } catch (err) {
-        res.redirect('/stones/edit', { error: 'Unsuccessful edit!' })
+        res.render('stones/edit', { stone: { ...stoneData, _id: stoneId },  error: getErrorMessage(err) });
     }
 })
 

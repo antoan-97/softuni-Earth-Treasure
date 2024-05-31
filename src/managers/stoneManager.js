@@ -5,7 +5,7 @@ exports.getAll = () => Stones.find().populate('owner')
 
 exports.getOne = (stoneId) => Stones.findById(stoneId).populate('owner');
 
-exports.edit = (stoneId,stoneData) => Stones.findByIdAndUpdate(stoneId,stoneData);
+exports.edit = (stoneId,stoneData) => Stones.findByIdAndUpdate(stoneId, stoneData, { runValidators: true, new: true });
 
 exports.delete = (stoneId) => Stones.findByIdAndDelete(stoneId);
 
