@@ -98,7 +98,7 @@ router.get('/search', async (req, res) => {
 
     let query = {};
     if (name) {
-        query.name = new RegExp(name, 'i'); // Case-insensitive regex search
+        query.name = new RegExp(`^${name}$`, 'i'); // Case-insensitive full match
     }
 
     try {
