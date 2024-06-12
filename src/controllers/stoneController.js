@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getErrorMessage } = require('../utils/errorHelper');
-const { isAuth } = require('../middlewares/authMiddleware');
+const { isAuth,isOwner } = require('../middlewares/authMiddleware');
 
 const stoneManager = require('../managers/stoneManager');
 
@@ -44,7 +44,7 @@ router.get('/:stoneId/details', async (req, res) => {
     res.render('stones/details', { stone, isOwner, hasLiked });
 });
 
-router.get('/:stoneId/edit', isAuth, async (req, res) => {
+router.get('/:stoneId/edit', isAuth, isOwner, async (req, res) => {
     const stoneId = req.params.stoneId;
 
     try {
@@ -56,7 +56,7 @@ router.get('/:stoneId/edit', isAuth, async (req, res) => {
 
 });
 
-router.post('/:stoneId/edit', isAuth, async (req, res) => {
+router.post('/:stoneId/edit', isAuth, isOwner, async (req, res) => {
 
     const stoneId = req.params.stoneId;
     const stoneData = req.body;
@@ -69,7 +69,7 @@ router.post('/:stoneId/edit', isAuth, async (req, res) => {
     }
 })
 
-router.get('/:stoneId/delete', isAuth, async (req, res) => {
+router.get('/:stoneId/delete', isAuth, isOwner, async (req, res) => {
     const stoneId = req.params.stoneId;
 
     try {
