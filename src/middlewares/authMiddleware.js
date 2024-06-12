@@ -41,7 +41,7 @@ exports.isLoggedIn = (req, res, next) => {
 
 exports.isOwner = async (req, res, next) => {
     const stoneId = req.params.stoneId;
-    const stone = await stoneManager.getOne(recipeId);
+    const stone = await stoneManager.getOne(stoneId);
     if (!stone || stone.owner.toString() !== req.user._id.toString()) {
         return res.render('404');
     }
